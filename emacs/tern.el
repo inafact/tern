@@ -71,12 +71,14 @@
             (return (funcall c port nil))))))
     (tern-start-server c)))
 
+(defvar tern-command-user-option nil)
+
 (defvar tern-command
   (let* ((script-file (or load-file-name
                           (and (boundp 'bytecomp-filename) bytecomp-filename)
                           buffer-file-name))
          (bin-file (expand-file-name "../bin/tern" (file-name-directory (file-truename script-file)))))
-    (list (if (file-exists-p bin-file) bin-file "tern") "--no-port-file" "--fallback-config" "{\"libs\":[\"browser\",\"jquery\",\"underscore\"],\"plugins\":{\"node\":{}}}"))
+    (append (list (if (file-exists-p bin-file) bin-file "tern")) tern-command-user-option))
   "The command to be run to start the Tern server. Should be a
 list of strings, giving the binary name and arguments.")
 
