@@ -21,6 +21,14 @@ if (portArg > -1) {
    port = Number(process.argv[portArg + 1]);
    if (isNaN(port)) port = 0;
 }
+//
+var fconfig = null;
+var fallbackConfig = process.argv.indexOf("--fallback-config");
+if (fallbackConfig > -1) {   
+   fconfig = JSON.parse(process.argv[fallbackConfig + 1]);
+   console.log(fconfig);
+}
+//
 
 function findProjectDir() {
   var dir = process.cwd();
@@ -100,7 +108,14 @@ if (projectDir) {
   var config = readProjectFile(projectDir);
 } else {
   projectDir = process.cwd();
-  var config = defaultConfig;
+  if(fconfig){
+    var config = fconfig;
+    console.log("use fallback config", fconfig);
+    for (var option in defaultConfig) if (!fconfig.hasOwnProperty(option))
+      config[option] = defaultConfig[option];
+  }else{
+    var config = defaultConfig;
+  }
 }
 var server = startServer(projectDir, config);
 

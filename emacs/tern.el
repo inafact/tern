@@ -76,7 +76,7 @@
                           (and (boundp 'bytecomp-filename) bytecomp-filename)
                           buffer-file-name))
          (bin-file (expand-file-name "../bin/tern" (file-name-directory (file-truename script-file)))))
-    (list (if (file-exists-p bin-file) bin-file "tern")))
+    (list (if (file-exists-p bin-file) bin-file "tern") "--no-port-file" "--fallback-config" "{\"libs\":[\"browser\",\"jquery\",\"underscore\"],\"plugins\":{\"node\":{}}}"))
   "The command to be run to start the Tern server. Should be a
 list of strings, giving the binary name and arguments.")
 
